@@ -1,91 +1,76 @@
-<!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset='utf-8'>
-
-  <title>upcdownc/js-snowflakes @ GitHub</title>
-
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #f1f2f3;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #0e0d0c; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #0e0d0c; }
-    h3 { text-align: center; color: #0e0d0c; }
-    a { color: #0e0d0c; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
+	<title>Fractals demo</title>
 </head>
 
-<body>
-  <a href="https://github.com/upcdownc/js-snowflakes"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+<script src="fractals.js">
+</script>
+<script src="snowflakes.js">
+</script>
 
-  <div id="container">
+<script>
+	var currentSnowflake = new Array();
+	
+	function submitSegmentResults()
+	{
+		sx = parseInt(document.getElementById("startx").value);
+		sy = parseInt(document.getElementById("starty").value);
+		angle = parseInt(document.getElementById("anglebox").value);
+		length = parseInt(document.getElementById("lengthbox").value);
+		drawSegment(sx,sy,angle,length);
+	}
+	
+	function submitFractalCurveResults()
+	{
+		sx = parseInt(document.getElementById("curveStartX").value);
+		sy = parseInt(document.getElementById("curveStartY").value);
+		segLen = parseInt(document.getElementById("curveSegmentLength").value);
+		itNum = parseInt(document.getElementById("curveIterationNumber").value);
+		drawFractalCurve(sx, sy, segLen, itNum);
+	}
+	
+	function submitSnowflakeResults()
+	{
+		sx = parseInt(document.getElementById("snowflakeStartX").value);
+		sy = parseInt(document.getElementById("snowflakeStartY").value);
+		segLen = parseInt(document.getElementById("snowflakeSegmentLength").value);
+		segCount = parseInt(document.getElementById("snowflakeSegmentCount").value);
+		drawCircumcircle = document.getElementById("drawCircumcircleBox").checked;
+		currentSnowflake = [];
+		currentSnowflake = generateSnowflake(segCount);
+		drawSnowflake(currentSnowflake, sx, sy, segLen, segCount, drawCircumcircle);
+	}
+</script>
 
-    <div class="download">
-      <a href="https://github.com/upcdownc/js-snowflakes/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/upcdownc/js-snowflakes/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
-    </div>
 
-    <h1><a href="https://github.com/upcdownc/js-snowflakes">js-snowflakes</a>
-      <span class="small">by <a href="https://github.com/upcdownc">upcdownc</a></span></h1>
-
-    <div class="description">
-      simple snowflake and fractal curves drawer on js
-    </div>
-
-    
-
-    
-
-    
-
-    
-      <h2>License</h2>
-      <p>gplv3</p>
-    
-
-    
-      <h2>Authors</h2>
-      <p>Dmitry Andreevich (upcdownc@yandex.ru)<br/>      </p>
-    
-
-    
-      <h2>Contact</h2>
-      <p>Dmitry (upcdownc@yandex.ru)<br/>      </p>
-    
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/upcdownc/js-snowflakes/zipball/master">zip</a> or
-      <a href="https://github.com/upcdownc/js-snowflakes/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/upcdownc/js-snowflakes</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/upcdownc/js-snowflakes">upcdownc/js-snowflakes</a>
-    </div>
-
-  </div>
-
+<body onload="drawBackground();">
+<p align="center">
+	Sx: <input type="text" id="startx" size=5 value="400"> 
+	Sy: <input type="text" id="starty" size=5 value="300"> 
+	Angle: <input type="text" id="anglebox" size=5 value="90"> 
+	Length: <input type="text" id="lengthbox" size=5 value="50">
+	<br>
+	<input type="button" value="drawSegment" onclick="submitResults();">
+	<input type="button" value="clearCanvas" onclick="drawBackground();">
+	<input type="button" value="drawApple" onclick="for (var i=0;i<360;i++) { drawSegment(400,300,i,278);}">
+	<br>
+	Sx: <input type="text" id="curveStartX" size=4 value="400"> 
+	Sy: <input type="text" id="curveStartY" size=4 value="300"> 
+	Segment Length: <input type="text" id="curveSegmentLength" size=4 value="5"> 
+	Curve Level: <input type="text" id="curveIterationNumber" size=2 value="4">  
+	<input type="button" value="drawFractalCurve" onclick="submitFractalCurveResults();">
+	<br>
+	Sx: <input type="text" id="snowflakeStartX" size=4 value="512"> 
+	Sy: <input type="text" id="snowflakeStartY" size=4 value="384"> 
+	Segment Length: <input type="text" id="snowflakeSegmentLength" size=4 value="1"> 
+	Segment Count: <input type="text" id="snowflakeSegmentCount" size=4 value="15000"> 
+	<input type="checkbox" id="drawCircumcircleBox"> Draw circumcircle 
+	<input type="button" value="generateSnowflake" onclick="submitSnowflakeResults();">
+	<br>
+	<canvas id="mainCanvas" width=1024 height=768
+	</canvas>
+</p>
 </body>
+
 </html>
