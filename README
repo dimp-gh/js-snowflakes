@@ -1,9 +1,0 @@
-Simple snowflakes and fractal curves generator, done in js + html5canvas
-todo-list (future features):
-- user should choose fractal curve initializer/generator himself
-- add possibilities to customize colors and background of drawings
-- add more kinds of snowflakes, not only "4-axis of symmetry"-based
-- add possibility to save drawed picture
-- draw snowflakes and curves in the center of canvas, without going over the edge
-
-* oh, todo-list is bigger that i expected
